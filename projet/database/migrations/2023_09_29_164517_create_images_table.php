@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-	    $talbe->string('lien');
+	    $table->string('link');
             $table->timestamps();
         });
     }

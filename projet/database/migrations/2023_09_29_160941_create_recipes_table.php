@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
+  	    $table->unsignedBigInteger('user_id'); // Clé étrangère pour l'utilisateur
+            $table->string('title');
+            $table->text('content');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

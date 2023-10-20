@@ -11,16 +11,14 @@ class PostController extends Controller
 {
      // Afficher tous les Post
     public function index() {
-        //On récupère tous les Post
-        $posts = Post::latest()->get();
+        $posts = Post::latest()->paginate(10); 
 
-        // On transmet les Post à la vue "/resources/views/posts/index.blade.php"
+
         return view("posts.index", compact("posts"));
     }
 
     // Créer un nouveau Post
     public function create() {
-        // On retourne la vue "/resources/views/posts/edit.blade.php"
         return view("posts.edit");
     }
 

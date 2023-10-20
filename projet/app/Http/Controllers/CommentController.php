@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Comment;
+use App\Models\Post; 
+use Illuminate\Http\Request; 
 
 class CommentController extends Controller
 {
@@ -29,21 +31,18 @@ class CommentController extends Controller
      */
     public function store(Request $request, Post $post)
 {
-    $this->authorize('create', [Comment::class, $post]);
-    
     $this->validate($request, [
+        'post_id' => 'required|exists:posts,id',
         'content' => 'required|max:255',
-        'post_id' => 'exists:posts,id',
     ]);
 
     Comment::create([
         'user_id' => auth()->id(),
-        'post_id' => $request->post_id,
-        'content' => $request->content,
+        'post_id' => $request->input('post_id'), 
+        'content' => $request->input('content'),
     ]);
-
-    // Rediriger l'utilisateur vers la page du post ou une autre page de votre choix
-    return redirect()->route('posts.show', $request->post_id);
+    event(new CommentCreated($comment));
+    return redirect()->route('posts.show', $request->input('post_id'));
 }
 
     /**

@@ -1,15 +1,13 @@
-@extends("layouts.app")
-@section("title", "Tous les articles")
-@section("content")
+@extends('layouts.app')
+@section('title', 'Tous les articles')
+@section('content')
 
     <h1>Tous les articles</h1>
 
     <p>
-        <!-- Lien pour créer un nouvel article : "posts.create" -->
         <a href="{{ route('posts.create') }}" title="Créer un article">Créer un nouveau post</a>
     </p>
 
-    <!-- Le tableau pour lister les articles/posts -->
     <table border="1">
         <thead>
             <tr>
@@ -19,24 +17,19 @@
             </tr>
         </thead> 
         <tbody>
-            <!-- On parcourt la collection de Post -->
             @foreach ($posts as $post)
             <tr>
                 <td>
-                    <!-- Lien pour afficher un Post : "posts.show" -->
                     <a href="{{ route('posts.show', $post) }}" title="Lire l'article">{{ $post->title }}</a>
                 </td>
                 <td>
-                    {{ $post->user->name }} <!-- Affiche le nom de l'utilisateur -->
+                    {{ $post->user->name }}
                 </td>
                 <td>
-                    <!-- Lien pour modifier un Post : "posts.edit" -->
                     <a href="{{ route('posts.edit', $post) }}" title="Modifier l'article">Modifier</a>
                 </td>
                 <td>
-                    <!-- Formulaire pour supprimer un Post : "posts.destroy" -->
                     <form method="POST" action="{{ route('posts.destroy', $post) }}">
-                        <!-- CSRF token -->
                         @csrf
                         @method("DELETE")
                         <input type="submit" value="x Supprimer">
@@ -46,5 +39,8 @@
             @endforeach
         </tbody>
     </table>
-    
+
+    <!-- Affichage des liens de pagination -->
+    {{ $posts->links() }}
+
 @endsection

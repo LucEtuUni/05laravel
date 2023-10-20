@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Comment;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class CommentPolicy
 {
@@ -13,7 +12,8 @@ class CommentPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+       
+        return $user->isAdmin();
     }
 
     /**
@@ -21,7 +21,8 @@ class CommentPolicy
      */
     public function view(User $user, Comment $comment): bool
     {
-        //
+      
+        return $comment->isPublic();
     }
 
     /**
@@ -29,7 +30,8 @@ class CommentPolicy
      */
     public function create(User $user): bool
     {
-        //
+        
+        return auth()->check();
     }
 
     /**
@@ -37,7 +39,7 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment): bool
     {
-        //
+        return $user->id === $comment->user_id;
     }
 
     /**
@@ -45,7 +47,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +55,8 @@ class CommentPolicy
      */
     public function restore(User $user, Comment $comment): bool
     {
-        //
+        // Exemple : Autoriser la restauration si l'utilisateur est administrateur
+        return  true;
     }
 
     /**
@@ -61,6 +64,7 @@ class CommentPolicy
      */
     public function forceDelete(User $user, Comment $comment): bool
     {
-        //
+        // Exemple : Autoriser la suppression définitive si l'utilisateur est administrateur
+        return true;
     }
 }

@@ -1,0 +1,48 @@
+/* styles.css */
+
+/* Barre de navigation */
+.navbar {
+    background-color: #FFDDC1; /* Couleur rose beige */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999; /* Assure que la barre de navigation est au-dessus de tout le contenu */
+}
+
+/* Logo à gauche */
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FF8C61; /* Couleur rouge beige */
+    text-decoration: none; /* Supprime le soulignement du lien */
+}
+
+/* Éléments de droite */
+.navbar-nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-item {
+    margin-right: 20px; /* Espacement entre les éléments du menu */
+}
+
+.nav-link {
+    color: #FF8C61; /* Couleur rouge beige */
+    text-decoration: none; /* Supprime le soulignement du lien */
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Éviter la superposition du contenu sous la barre de navigation */
+.content {
+    margin-top: 70px; /* Ajustez selon la hauteur de votre barre de navigation */
+}

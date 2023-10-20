@@ -11,6 +11,13 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    public function show(Request $request)
+    {
+    $user = $request->user();
+    $posts = $user->posts()->latest()->paginate(5);
+
+    return view('profile.show', compact('user', 'posts'));
+    }
     /**
      * Display the user's profile form.
      */

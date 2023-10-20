@@ -16,12 +16,13 @@ class CommentCreated
 
 
     public $comment;
+    public $post;
 
-    public function __construct(Comment $comment)
+    public function __construct($comment, $post)
     {
         $this->comment = $comment;
+        $this->post = $post;
     }
-
     /**
      * Get the channels the event should broadcast on.
      *

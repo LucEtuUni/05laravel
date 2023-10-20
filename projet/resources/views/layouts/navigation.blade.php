@@ -2,7 +2,7 @@
     <div>
         <div>
             <!-- Logo -->
-            <a href="{{ route('dashboard') }}">
+            <a href="{{ route('accueil') }}">
                 <span>Gatiserie</span>
             </a>
         </div>

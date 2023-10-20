@@ -18,8 +18,11 @@ class CommentCreatedListener
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(NewComment $event)
     {
-        //
+        $user = $event->post->user; 
+        $comment = $event->comment; 
+
+        $user->notify(new NewCommentNotification($comment, $event->post));
     }
 }

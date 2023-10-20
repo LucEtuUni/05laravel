@@ -6,10 +6,9 @@
 
 @if (isset($post))
 
-<form method="POST" action="{{ route('posts.store', $post) }}" enctype="multipart/form-data" >
-
-    @method('PUT')
-
+<form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data" >
+    @method('PATCH')
+    @csrf
 @else
 
 <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data" >

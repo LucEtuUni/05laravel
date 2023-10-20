@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Event;
 
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Comment;
 use App\Models\Post; 
 use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\Auth;
+use App\Events\CommentCreated; 
 
 class CommentController extends Controller
 {
@@ -29,21 +32,31 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request, Post $post)
 {
-    $this->validate($request, [
-        'post_id' => 'required|exists:posts,id',
-        'content' => 'required|max:255',
-    ]);
+    // Check if the user is authenticated
+    if (auth()->check()) {
+        $this->validate($request, [
+            'post_id' => 'required|exists:posts,id',
+            'content' => 'required|max:255',
+        ]);
 
-    Comment::create([
-        'user_id' => auth()->id(),
-        'post_id' => $request->input('post_id'), 
-        'content' => $request->input('content'),
-    ]);
-    event(new CommentCreated($comment));
-    return redirect()->route('posts.show', $request->input('post_id'));
+        $comment = Comment::create([
+            'user_id' => auth()->id(),
+            'post_id' => $request->input('post_id'),
+            'content' => $request->input('content'),
+        ]);
+
+
+        Event::dispatch(new CommentCreated($comment, $post));
+
+        return redirect()->route('posts.show', $request->input('post_id'));
+    } else {
+        return redirect()->route('login'); // Redirect to the login page or handle as needed
+    }
 }
+
 
     /**
      * Display the specified resource.

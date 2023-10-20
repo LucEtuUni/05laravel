@@ -8,7 +8,8 @@ use App\Models\User;
 use App\Models\Post;
 class Comment extends Model
 {
-    protected $fillable = ['content'];
+    protected $fillable = ['content', 'user_id','post_id'];
+
 
     // Relation avec l'utilisateur
     public function user()

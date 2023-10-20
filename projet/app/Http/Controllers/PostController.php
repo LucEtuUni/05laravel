@@ -79,13 +79,11 @@ class PostController extends Controller
             "content" => $request->content
         ]);
 
-        // 4. On affiche le Post modifié : route("posts.show")
         return redirect(route("posts.show", $post));
     }
 
     // Supprimer un Post
     public function destroy(Post $post) {
-        // On supprime l'image existant
         Storage::delete($post->picture);
         $post->deleteWithComments();
 

@@ -17,7 +17,7 @@
                 <th>Créé par</th>
                 <th colspan="2">Opérations</th>
             </tr>
-        </thead>
+        </thead> 
         <tbody>
             <!-- On parcourt la collection de Post -->
             @foreach ($posts as $post)

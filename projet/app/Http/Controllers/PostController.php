@@ -24,26 +24,21 @@ class PostController extends Controller
         return view("posts.edit");
     }
 
-    // Enregistrer un nouveau Post
     public function store(Request $request) {
-        // 1. La validation
         $this->validate($request, [
             'title' => 'bail|required|string|max:255',
             "picture" => 'bail|required|image|max:1024',
             "content" => 'bail|required',
         ]);
-
-        // 2. On upload l'image dans "/storage/app/public/posts"
+        
         $chemin_image = $request->picture->store("posts");
-
-        // 3. On enregistre les informations du Post
-        Post::create([
-            "title" => $request->title,
-            "picture" => $chemin_image,
-            "content" => $request->content,
+    
+        $post = auth()->user()->posts()->create([
+            'title' => $request->input('title'),
+            'picture' => $chemin_image, 
+            'content' => $request->input('content'),
         ]);
-
-        // 4. On retourne vers tous les posts : route("posts.index")
+    
         return redirect(route("posts.index"));
     }
 
@@ -59,32 +54,27 @@ class PostController extends Controller
 
     // Mettre à jour un Post
     public function update(Request $request, Post $post) {
-        // 1. La validation
+     
         $this->authorize('update', $post);
-        // Les règles de validation pour "title" et "content"
+  
         $rules = [
             'title' => 'bail|required|string|max:255',
             "content" => 'bail|required',
         ];
-
-        // Si une nouvelle image est envoyée
         if ($request->has("picture")) {
-            // On ajoute la règle de validation pour "picture"
+           
             $rules["picture"] = 'bail|required|image|max:1024';
         }
 
         $this->validate($request, $rules);
 
-        // 2. On upload l'image dans "/storage/app/public/posts"
+        
         if ($request->has("picture")) {
 
-            //On supprime l'ancienne image
             Storage::delete($post->picture);
-
             $chemin_image = $request->picture->store("posts");
         }
 
-        // 3. On met à jour les informations du Post
         $post->update([
             "title" => $request->title,
             "picture" => isset($chemin_image) ? $chemin_image : $post->picture,

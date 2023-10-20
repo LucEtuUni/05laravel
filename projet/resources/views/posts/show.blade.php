@@ -21,7 +21,7 @@
     <textarea name="content" placeholder="Écrivez votre commentaire"></textarea>
     <button type="submit">Poster un commentaire</button>
 </form>
-@else
+@else 
 <p>Connectez-vous pour laisser un commentaire.</p>
 @endif
 <div>

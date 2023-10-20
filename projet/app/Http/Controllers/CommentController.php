@@ -27,10 +27,24 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request)
-    {
-        //
-    }
+    public function store(Request $request, Post $post)
+{
+    $this->authorize('create', [Comment::class, $post]);
+    
+    $this->validate($request, [
+        'content' => 'required|max:255',
+        'post_id' => 'exists:posts,id',
+    ]);
+
+    Comment::create([
+        'user_id' => auth()->id(),
+        'post_id' => $request->post_id,
+        'content' => $request->content,
+    ]);
+
+    // Rediriger l'utilisateur vers la page du post ou une autre page de votre choix
+    return redirect()->route('posts.show', $request->post_id);
+}
 
     /**
      * Display the specified resource.

@@ -60,7 +60,7 @@ class PostController extends Controller
     // Mettre à jour un Post
     public function update(Request $request, Post $post) {
         // 1. La validation
-
+        $this->authorize('update', $post);
         // Les règles de validation pour "title" et "content"
         $rules = [
             'title' => 'bail|required|string|max:255',
@@ -99,9 +99,7 @@ class PostController extends Controller
     public function destroy(Post $post) {
         // On supprime l'image existant
         Storage::delete($post->picture);
-
-        // On les informations du $post de la table "posts"
-        $post->delete();
+        $post->deleteWithComments();
 
         // Redirection route "posts.index"
         return redirect(route('posts.index'));

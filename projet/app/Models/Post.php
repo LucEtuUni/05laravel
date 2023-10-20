@@ -19,4 +19,9 @@ class Post extends Model
     {
         return $this->hasMany('App\Models\Comment');
     }
+    public function deleteWithComments()
+{
+    $this->comments()->delete(); // Supprime tous les commentaires liés au post
+    $this->delete(); // Supprime le post lui-même
+}
 }
